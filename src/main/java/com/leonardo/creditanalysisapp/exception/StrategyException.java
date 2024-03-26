@@ -1,0 +1,7 @@
+package com.leonardo.creditanalysisapp.exception;
+
+public class StrategyException extends RuntimeException {
+    public StrategyException(String message) {
+        super(message);
+    }
+}
