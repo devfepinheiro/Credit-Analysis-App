@@ -1,12 +1,12 @@
 package com.leonardo.creditanalysisapp.service.strategy.impl;
 
-import org.springframework.stereotype.Component;
-
 import com.leonardo.creditanalysisapp.domain.Proposal;
 import com.leonardo.creditanalysisapp.service.strategy.IPointCalc;
 
+import org.springframework.stereotype.Component;
+
 @Component
-public class paymentTermImpl implements IPointCalc {
+public class PaymentTermImpl implements IPointCalc {
 
     @Override
     public int calc(Proposal proposal) {

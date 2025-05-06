@@ -2,13 +2,17 @@ package com.leonardo.creditanalysisapp.service.strategy.impl;
 
 import java.util.Random;
 
-import org.springframework.stereotype.Component;
-
 import com.leonardo.creditanalysisapp.domain.Proposal;
 import com.leonardo.creditanalysisapp.service.strategy.IPointCalc;
 
+import org.springframework.stereotype.Component;
+
+import lombok.RequiredArgsConstructor;
+
 @Component
+@RequiredArgsConstructor
 public class OtherLoansImpl implements IPointCalc {
+    private final Random random;
 
     @Override
     public int calc(Proposal proposal) {
@@ -16,6 +20,6 @@ public class OtherLoansImpl implements IPointCalc {
     }
 
     public boolean otherLoans() {
-        return new Random().nextBoolean();
+        return random.nextBoolean();
     }
 }
