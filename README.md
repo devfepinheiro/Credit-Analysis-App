@@ -70,7 +70,6 @@ src/
 └── test/
     └── java/                               # Classes de teste
 
-
 ## Primeiros Passos
 
 ### Pré-requisitos
