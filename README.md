@@ -68,7 +68,7 @@ src/
 │   └── resources/
 │       └── application.properties          # Configuração da aplicação
 └── test/
-└── java/                               # Classes de teste
+    └── java/                               # Classes de teste
 
 
 ## Primeiros Passos
@@ -172,3 +172,4 @@ Envie para a branch (git push origin feature/amazing-feature)
 Abra um Pull Request
 Licença
 Este projeto está licenciado sob a Licença MIT.
+
