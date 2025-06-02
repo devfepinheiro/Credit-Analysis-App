@@ -25,7 +25,7 @@ O aplicativo segue um padrão de arquitetura de microsserviços, focando no dom�
 
 - **Camada de Domínio**: Contém entidades de negócio centrais como `Proposal` e `User`
 - **Camada de Serviço**: Contém a lógica de negócio com o `CreditAnalysisService` e implementações de estratégia
-- **Camada de Infraestrutura**: Lida com a comunicação com o RabbitMQ através de listeners e serviços de notificação
+- **Camada de Infraestrutura**: Lida com a comunicação com o RabbitMQ através de listeners e notification services
 
 O aplicativo usa o padrão Strategy para calcular pontuações de crédito, permitindo critérios de pontuação flexíveis que podem ser facilmente estendidos ou modificados.
 
@@ -56,19 +56,19 @@ src/
 │   │   └── com/
 │   │       └── leonardo/
 │   │           └── creditanalysisapp/
-│   │               ├── config/             # Classes de configuração
-│   │               ├── domain/             # Entidades de domínio
-│   │               ├── dto/                # Objetos de Transferência de Dados
-│   │               ├── exception/          # Exceções personalizadas e handlers
-│   │               ├── listener/           # Listeners de mensagens RabbitMQ
-│   │               ├── mapper/             # Mapeadores de objetos
-│   │               ├── service/            # Serviços de lógica de negócio
-│   │               │   └── strategy/       # Estratégias de pontuação de crédito
-│   │               └── statics/            # Constantes e mensagens estáticas
+│   │               ├── config/             # Configuration classes
+│   │               ├── domain/             # Domain entities
+│   │               ├── dto/                # Data Transfer Objects
+│   │               ├── exception/          # Custom exceptions and handlers
+│   │               ├── listener/           # RabbitMQ message listeners
+│   │               ├── mapper/             # Object mappers
+│   │               ├── service/            # Business logic services
+│   │               │   └── strategy/       # Credit scoring strategies
+│   │               └── statics/            # Constants and static messages
 │   └── resources/
-│       └── application.properties          # Configuração da aplicação
+│       └── application.properties          # Application configuration
 └── test/
-    └── java/                               # Classes de teste
+    └── java/                               # Test classes
 
 ## Primeiros Passos
 
@@ -97,21 +97,21 @@ Properties
 # Nome da aplicação
 spring.application.name=credit-analysis-app
 
-# Configuração RabbitMQ
+# RabbitMQ Configuration
 spring.rabbitmq.host=localhost
 spring.rabbitmq.port=5672
 spring.rabbitmq.username=guest
 spring.rabbitmq.password=guest
 
-# Nomes da fila e da exchange
+# Queue and exchange names
 rabbitmq.queue.pending.proposal=pending-proposal.ms-credit-analysis
 rabbitmq.completed-exchange.exchange=completed-proposal.ex
 
-# Configuração de repetição
+# Retry configuration
 spring.rabbitmq.listener.simple.retry.enabled=true
 spring.rabbitmq.listener.simple.retry.max-attempts=3
 
-# Configuração de análise de crédito
+# Credit analysis configuration
 credit.analysis.approval.threshold=350
 Executando o Aplicativo
 Usando Maven
@@ -143,12 +143,12 @@ Avaliação de empréstimos existentes
 Os pontos de cada estratégia são somados e comparados ao limiar de aprovação
 A proposta analisada com status de aprovação é enviada para a exchange completed-proposal.ex
 Testes
-Execute os testes de unidade:
+Run unit tests:
 
 Bash
 
 mvn test
-Execute os testes de integração e verifique a construção:
+Run integration tests and verify the build:
 
 Bash
 
@@ -164,11 +164,10 @@ Bash
 
 docker-compose up --build
 Contribuindo
-Faça um fork do repositório
-Crie uma branch de feature (git checkout -b feature/amazing-feature)
-Faça suas alterações (git commit -m 'Add amazing feature')
-Envie para a branch (git push origin feature/amazing-feature)
-Abra um Pull Request
-Licença
+Fork the repository
+Create a feature branch (git checkout -b feature/amazing-feature)
+Commit your changes (git commit -m 'Add amazing feature')
+Push to the branch (git push origin feature/amazing-feature)
+Open a Pull Request
+License
 Este projeto está licenciado sob a Licença MIT.
-
