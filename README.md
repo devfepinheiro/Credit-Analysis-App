@@ -1,44 +1,44 @@
-# Credit Analysis App
+# Aplicativo de Análise de Crédito
 
-## Overview
+## Visão Geral
 
-Credit Analysis App is a Spring Boot microservice designed to evaluate credit proposals asynchronously. The application receives credit proposals through a RabbitMQ queue, analyzes them based on various scoring strategies, and sends the results back through another RabbitMQ exchange.
+O Aplicativo de Análise de Crédito é um microsserviço Spring Boot projetado para avaliar propostas de crédito de forma assíncrona. O aplicativo recebe propostas de crédito através de uma fila RabbitMQ, as analisa com base em várias estratégias de pontuação e envia os resultados de volta através de outra exchange RabbitMQ.
 
-## Table of Contents
+## Sumário
 
-- [Architecture](#architecture)
-- [Key Features](#key-features)
-- [Technologies](#technologies)
-- [Project Structure](#project-structure)
-- [Getting Started](#getting-started)
-  - [Prerequisites](#prerequisites)
-  - [Installation](#installation)
-  - [Configuration](#configuration)
-- [Running the Application](#running-the-application)
-- [API Documentation](#api-documentation)
-- [Testing](#testing)
-- [Docker Support](#docker-support)
+- [Arquitetura](#arquitetura)
+- [Principais Funcionalidades](#principais-funcionalidades)
+- [Tecnologias](#tecnologias)
+- [Estrutura do Projeto](#estrutura-do-projeto)
+- [Primeiros Passos](#getting-started)
+  - [Pré-requisitos](#prerequisites)
+  - [Instalação](#installation)
+  - [Configuração](#configuration)
+- [Executando o Aplicativo](#running-the-application)
+- [Documentação da API](#api-documentation)
+- [Testes](#testing)
+- [Suporte a Docker](#docker-support)
 
-## Architecture
+## Arquitetura
 
-The application follows a microservice architecture pattern, focusing on the credit analysis domain. It follows SOLID principles and employs a clean architecture approach with:
+O aplicativo segue um padrão de arquitetura de microsserviços, focando no domínio de análise de crédito. Ele segue os princípios SOLID e emprega uma abordagem de arquitetura limpa com:
 
-- **Domain Layer**: Contains core business entities like `Proposal` and `User`
-- **Service Layer**: Contains business logic with the `CreditAnalysisService` and strategy implementations
-- **Infrastructure Layer**: Handles communication with RabbitMQ through listeners and notification services
+- **Camada de Domínio**: Contém entidades de negócio centrais como `Proposal` e `User`
+- **Camada de Serviço**: Contém a lógica de negócio com o `CreditAnalysisService` e implementações de estratégia
+- **Camada de Infraestrutura**: Lida com a comunicação com o RabbitMQ através de listeners e serviços de notificação
 
-The application uses the Strategy Pattern for calculating credit scores, allowing for flexible scoring criteria that can be easily extended or modified.
+O aplicativo usa o padrão Strategy para calcular pontuações de crédito, permitindo critérios de pontuação flexíveis que podem ser facilmente estendidos ou modificados.
 
-## Key Features
+## Principais Funcionalidades
 
-- Asynchronous credit proposal processing via RabbitMQ
-- Multiple scoring strategies that analyze various aspects of credit worthiness
-- Configurable approval threshold
-- Error handling with retry mechanisms
-- Comprehensive logging
-- Docker support for containerized deployment
+- Processamento assíncrono de propostas de crédito via RabbitMQ
+- Múltiplas estratégias de pontuação que analisam vários aspectos da capacidade de crédito
+- Limiar de aprovação configurável
+- Tratamento de erros com mecanismos de repetição
+- Log abrangente
+- Suporte a Docker para implantação conteinerizada
 
-## Technologies
+## Tecnologias
 
 - Java 21
 - Spring Boot
@@ -46,154 +46,129 @@ The application uses the Strategy Pattern for calculating credit scores, allowin
 - Lombok
 - Maven
 - Docker
-- JUnit and Mockito (for testing)
+- JUnit e Mockito (para testes)
 
-## Project Structure
+## Estrutura do Projeto
 
-```
 src/
 ├── main/
 │   ├── java/
 │   │   └── com/
 │   │       └── leonardo/
 │   │           └── creditanalysisapp/
-│   │               ├── config/             # Configuration classes
-│   │               ├── domain/             # Domain entities
-│   │               ├── dto/                # Data Transfer Objects
-│   │               ├── exception/          # Custom exceptions and handlers
-│   │               ├── listener/           # RabbitMQ message listeners
-│   │               ├── mapper/             # Object mappers
-│   │               ├── service/            # Business logic services
-│   │               │   └── strategy/       # Credit scoring strategies
-│   │               └── statics/            # Constants and static messages
+│   │               ├── config/             # Classes de configuração
+│   │               ├── domain/             # Entidades de domínio
+│   │               ├── dto/                # Objetos de Transferência de Dados
+│   │               ├── exception/          # Exceções personalizadas e handlers
+│   │               ├── listener/           # Listeners de mensagens RabbitMQ
+│   │               ├── mapper/             # Mapeadores de objetos
+│   │               ├── service/            # Serviços de lógica de negócio
+│   │               │   └── strategy/       # Estratégias de pontuação de crédito
+│   │               └── statics/            # Constantes e mensagens estáticas
 │   └── resources/
-│       └── application.properties          # Application configuration
+│       └── application.properties          # Configuração da aplicação
 └── test/
-    └── java/                               # Test classes
-```
+└── java/                               # Classes de teste
 
-## Getting Started
 
-### Prerequisites
+## Primeiros Passos
 
-- Java 17 or higher
+### Pré-requisitos
+
+- Java 17 ou superior
 - Maven 3.6+
-- RabbitMQ server (running locally or accessible remotely)
-- Docker (optional, for containerized deployment)
+- Servidor RabbitMQ (executando localmente ou acessível remotamente)
+- Docker (opcional, para implantação conteinerizada)
 
-### Installation
+### Instalação
 
-1. Clone the repository:
+1. Clone o repositório:
    ```bash
-   git clone https://github.com/yourusername/credit-analysis-app.git
+   git clone [https://github.com/yourusername/credit-analysis-app.git](https://github.com/yourusername/credit-analysis-app.git)
    cd credit-analysis-app
-   ```
+Construa o aplicativo:
+Bash
 
-2. Build the application:
-   ```bash
-   mvn clean package
-   ```
+mvn clean package
+Configuração
+Configure o aplicativo através de application.properties:
 
-### Configuration
+Properties
 
-Configure the application through `application.properties`:
-
-```properties
-# Application name
+# Nome da aplicação
 spring.application.name=credit-analysis-app
 
-# RabbitMQ Configuration
+# Configuração RabbitMQ
 spring.rabbitmq.host=localhost
 spring.rabbitmq.port=5672
 spring.rabbitmq.username=guest
 spring.rabbitmq.password=guest
 
-# Queue and exchange names
+# Nomes da fila e da exchange
 rabbitmq.queue.pending.proposal=pending-proposal.ms-credit-analysis
 rabbitmq.completed-exchange.exchange=completed-proposal.ex
 
-# Retry configuration
+# Configuração de repetição
 spring.rabbitmq.listener.simple.retry.enabled=true
 spring.rabbitmq.listener.simple.retry.max-attempts=3
 
-# Credit analysis configuration
+# Configuração de análise de crédito
 credit.analysis.approval.threshold=350
-```
+Executando o Aplicativo
+Usando Maven
+Bash
 
-## Running the Application
-
-### Using Maven
-
-```bash
 mvn spring-boot:run
-```
+Usando Java
+Bash
 
-### Using Java
-
-```bash
 java -jar target/credit-analysis-app.jar
-```
+Usando Docker
+Bash
 
-### Using Docker
-
-```bash
 docker build -t credit-analysis-app .
 docker run -p 8080:8080 credit-analysis-app
-```
+Alternativamente, você pode usar Docker Compose:
 
-Alternatively, you can use Docker Compose:
+Bash
 
-```bash
 docker-compose up
-```
+Processo de Análise de Crédito
+O aplicativo escuta por propostas de crédito na fila pending-proposal.ms-credit-analysis
+Cada proposta é analisada usando múltiplas estratégias de pontuação:
+Avaliação de compatibilidade de renda
+Avaliação do prazo de pagamento
+Pontuação baseada no nome
+Verificação de registros negativos
+Avaliação de empréstimos existentes
+Os pontos de cada estratégia são somados e comparados ao limiar de aprovação
+A proposta analisada com status de aprovação é enviada para a exchange completed-proposal.ex
+Testes
+Execute os testes de unidade:
 
-## Credit Analysis Process
+Bash
 
-1. The application listens for credit proposals on the `pending-proposal.ms-credit-analysis` queue
-2. Each proposal is analyzed using multiple scoring strategies:
-   - Income compatibility assessment
-   - Payment term evaluation
-   - Name-based scoring
-   - Negative record checks
-   - Existing loan evaluation
-3. Points from each strategy are summed and compared to the approval threshold
-4. The analyzed proposal with approval status is sent to the `completed-proposal.ex` exchange
-
-## Testing
-
-Run unit tests:
-
-```bash
 mvn test
-```
+Execute os testes de integração e verifique a construção:
 
-Run integration tests and verify the build:
+Bash
 
-```bash
 mvn verify
-```
+Suporte a Docker
+O aplicativo inclui um Dockerfile e docker-compose.yml para implantação conteinerizada:
 
-## Docker Support
+Dockerfile: Define a imagem do contêiner para o aplicativo
+docker-compose.yml: Orquestra o aplicativo e suas dependências (RabbitMQ)
+Para construir e executar com Docker Compose:
 
-The application includes a `Dockerfile` and `docker-compose.yml` for containerized deployment:
+Bash
 
-- `Dockerfile`: Defines the container image for the application
-- `docker-compose.yml`: Orchestrates the application and its dependencies (RabbitMQ)
-
-To build and run with Docker Compose:
-
-```bash
 docker-compose up --build
-```
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## License
-
-This project is licensed under the [MIT License](LICENSE).
+Contribuindo
+Faça um fork do repositório
+Crie uma branch de feature (git checkout -b feature/amazing-feature)
+Faça suas alterações (git commit -m 'Add amazing feature')
+Envie para a branch (git push origin feature/amazing-feature)
+Abra um Pull Request
+Licença
+Este projeto está licenciado sob a Licença MIT.
